@@ -5,14 +5,10 @@ import { SongDivider } from "./song-divider";
 export { Song } from "./structures/song";
 export { SongDivider } from "./song-divider";
 
-// const songDivider = new SongDivider(
-//   20,
-//   5,
-//   new Song(readFile("src/examples/song_format.txt"))
-// );
+// const song = new Song(readFile("src/examples/song_format.txt"));
+
+// const songDivider = new SongDivider(20, 5, song);
 
 // const parts = songDivider.getNumberOfParts();
 // const pages = songDivider.getPagesForPart(0);
 // const a = songDivider.getDisplayPageForPart(0, 0);
-
-// const b = 5;

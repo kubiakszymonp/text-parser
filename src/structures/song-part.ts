@@ -6,9 +6,11 @@ export class SongPart {
   songPartName: string;
   songPartContent: string;
   songPartLines: string[];
+  hasCustomName: boolean;
 
   constructor(songPart: string) {
-    this.rawSongPart = songPart;
+    this.hasCustomName = false;
+    this.rawSongPart = songPart.replace(/^\n/, "");
     this.songPartName = this.extractPartName();
     this.songPartLines = this.extractPartLines();
     this.songPartContent = this.extractPartContent();
@@ -17,10 +19,15 @@ export class SongPart {
   private extractPartName(): string {
     const firstLine = this.rawSongPart.split("\n")[0];
 
-    this.throwErrorIfPartNameIsInvalid(firstLine);
-
-    const partName = firstLine.replace("[", "").replace("]", "").trim();
-    return partName;
+    const customPartNameRegex = /\[.*\]/;
+    if (firstLine.match(customPartNameRegex)) {
+      this.hasCustomName = true;
+      return firstLine.replace("[", "").replace("]", "").trim();
+    } else {
+      this.hasCustomName = false;
+      // remove non-letter characters from the end of the string
+      return firstLine.replace(/\W+$/, "");
+    }
   }
 
   private extractPartContent(): string {
@@ -35,36 +42,11 @@ export class SongPart {
   private extractPartLines(): string[] {
     const splitted = this.rawSongPart.split("\n");
 
-    splitted.shift();
+    if (this.hasCustomName) {
+      splitted.shift();
+    }
+
     return splitted
-      .map((line) => line.trim())
-      .map((line) => {
-        this.throwErrorIfNoNewlineBeforePartTitle(line);
-        return line;
-      });
-  }
-
-  /**
-   * Throws an InvalidPartTitleError if the part name in the first line is invalid.
-   * @param partFirstLine - The first line of the part.
-   * @throws {InvalidPartTitleError} - If the part name is invalid.
-   */
-  private throwErrorIfPartNameIsInvalid(partFirstLine: string): void {
-    const partNameRegex = /\[(.*)\]/;
-    if (!partNameRegex.test(partFirstLine)) {
-      throw new InvalidPartTitleError(this);
-    }
-  }
-
-  /**
-   * Throws an error if there is no newline before the part title.
-   * @param partLine - The line containing the part title.
-   * @throws {NoNewlineBeforePartTitleError} - If there is no newline before the part title.
-   */
-  private throwErrorIfNoNewlineBeforePartTitle(partLine: string): void {
-    const partNameRegex = /\[(.*)\]/;
-    if (partNameRegex.test(partLine)) {
-      throw new NoNewlineBeforePartTitleError(partLine);
-    }
+      .map((line) => line.trim());
   }
 }
