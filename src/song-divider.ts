@@ -1,4 +1,4 @@
-import { Song } from "./structures/song";
+import { Song } from "./structures/text";
 
 export class SongDivider {
   constructor(

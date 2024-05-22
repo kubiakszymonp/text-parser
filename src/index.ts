@@ -1,8 +1,8 @@
 import { readFile } from "./utils";
-import { Song } from "./structures/song";
+import { Song } from "./structures/text";
 import { SongDivider } from "./song-divider";
 
-export { Song } from "./structures/song";
+export { Song } from "./structures/text";
 export { SongDivider } from "./song-divider";
 
 // const song = new Song(readFile("src/examples/song_format.txt"));

@@ -3,8 +3,6 @@ import { SongPart } from "./song-part";
 const MULTIPLE_NEWLINES = /\n{2,}/g;
 const VERTICAL_SPACE = "\n\n";
 
-
-
 export class Song {
   rawSong: string;
   songParts: SongPart[] = [];
