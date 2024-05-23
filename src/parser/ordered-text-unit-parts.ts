@@ -8,7 +8,7 @@ export class OrderedParsedTextUnit extends ParsedTextUnit {
 
     constructor(text: string, order: number[]) {
         super(text);
-        this.order = this.removeNonExistingOrderUnits(order);
+        this.order = this.correctPartsOrder(order);
         this.orderedTextUnitParts = this.orderTextUnitParts();
     }
 
@@ -23,9 +23,15 @@ export class OrderedParsedTextUnit extends ParsedTextUnit {
             .filter((p): p is ParsedTextUnitPart => p !== undefined);
     }
 
-    private removeNonExistingOrderUnits(order: number[]) {
-        return order.filter(indexLabel => {
+    private correctPartsOrder(order: number[]) {
+        const correctedOrder = order.filter(indexLabel => {
             return this.parsedTextUnitParts.some(part => part.indexLabel === indexLabel);
         });
+
+        if (correctedOrder.length < 1) {
+            return this.parsedTextUnitParts.map(part => part.indexLabel);
+        }
+
+        return correctedOrder;
     }
 }
