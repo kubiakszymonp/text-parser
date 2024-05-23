@@ -3,8 +3,7 @@ import { ParsedTextUnitPart } from "./parsed-text-unit-part";
 const NEWLINE_SPACE = "\n\n";
 
 export class ParsedTextUnit {
-    private rawText: string;
-
+    public rawText: string;
     public parsedTextUnitParts: ParsedTextUnitPart[] = [];
 
     constructor(text: string) {
